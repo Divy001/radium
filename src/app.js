@@ -29,5 +29,3 @@ let union = load.union([1,2,3],[5,4,2,3,6],[8,2,3,4,5,6],[1,2,3,6,7,8,11],[4,4,7
 console.log(union)
 let pairs = load.fromPairs([["horror","The Titanic"],["drama","Titanic"],["a","1"],["b","2"],["c","3"]])
 console.log(pairs)
-
-//all working fine.. but iam having prob  in git push... sit btw i havenot add git clone
