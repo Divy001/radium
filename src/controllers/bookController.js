@@ -1,5 +1,6 @@
 const bookModels = require('../models/bookModel.js')
 const authorModels = require('../models/authorModel')
+const publisherModels = require('../models/publisherModel')
 
 
 const authorCreation = async function(req, res){
@@ -12,21 +13,29 @@ const authorCreation = async function(req, res){
 const bookCreation = async function(req, res){
     let data = req.body
     let id = req.body.author
+    let pub = req.body.publisher
     let validId = await authorModels.findById(id)
-    if(validId){
+    let publisId = await publisherModels.findById(pub)
+    if(validId && publisId){
         let data1 = await bookModels.create(data)
         res.send(data1)
-    }else{
-        res.send("This Author Id is Invalid")
+    } else{
+        res.send("This Author Id and Publisher Id is Invalid")
     }
 }
 
 const getAllBooks = async function(req,res){
-    let allBooks = await bookModels.find().populate('author')
+    let allBooks = await bookModels.find().populate({path:'author', select:{'author_name':1,'age':1}}).populate('publisher')
     res.send(allBooks)
 }
 
+const addPublisher = async function(req,res){
+    let data = req.body
+    let addPub = await publisherModels.create(data)
+    res.send(addPub)
+}
 
 module.exports.authorsCreation=authorCreation;
 module.exports.booksCreation=bookCreation;
 module.exports.getAllBooks=getAllBooks;
+module.exports.addPublisher=addPublisher;
