@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', route);
 
+
+
 mongoose.connect("mongodb+srv://users-open-to-all:hiPassword123@cluster0.uh35t.mongodb.net/Divy_ShaktiDB?retryWrites=true&w=majority"
     , { useNewUrlParser: true })
     .then(() => console.log("MongoDb Running on 27017"))
@@ -19,3 +21,21 @@ mongoose.connect("mongodb+srv://users-open-to-all:hiPassword123@cluster0.uh35t.m
 app.listen(process.env.PORT || 3000, function () {
     console.log('Express app running on port ' + (process.env.PORT || 3000))
 });
+
+const logDb = function (req,res,next){
+    const date = new Date()
+    const validDate = date.getDate()+"/"
+    + (date.getMonth()+1)  + "/" 
+    + date.getFullYear() + " "  
+    + date.getHours() + ":"  
+    + date.getMinutes() + ":" 
+    + date.getSeconds();
+
+    const ip = req.ip
+    const url = req.originalUrl
+    console.log(validDate +" "+ip+ " " + url)
+    next()
+}
+
+app.use( logDb )
+
